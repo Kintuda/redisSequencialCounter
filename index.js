@@ -1,8 +1,8 @@
 const redisDatabase = require('./connection')
+let redis
 
-const transactionIncrement = async (key, id, retries) => {
+async function transactionIncrement(key, id, retries) {
   try {
-    redis = redisDatabase()
     await redis.watch(key)
     let result = await redis.multi()
       .incr(key)
@@ -25,3 +25,31 @@ const transactionIncrement = async (key, id, retries) => {
   }
 }
 
+async function connect() {
+  try {
+    redis = redisDatabase()
+  } catch (error) {
+    console.log('Error while connecting into instance of REDIS database')
+    throw error
+  }
+}
+
+//testing
+async function testLoad(id) {
+  try {
+    await connect()
+    let paralelCalling = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+    return await Promise.all(paralelCalling.map(test => transactionIncrement(`teste${id}`, 1, 50)))
+  } catch (error) {
+    console.log(`Error, ${error}`)
+  }
+}
+
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
+testLoad(1).then(res => console.log(res))
