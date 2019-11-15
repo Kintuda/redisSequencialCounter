@@ -1,19 +1,23 @@
 {
-  "name": "redisTest",
+  "name": "redis-sequential",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"node index.js\" \"node index.js\" \"node index.js\" \"node index.js\""
+    "test": "node -r dotenv/config testing.js"
   },
-  "keywords": [],
+  "keywords": [
+    "sequential",
+    "redis",
+    "counter"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "concurrently": "^4.1.0",
-    "ioredis": "^4.5.1"
+    "concurrently": "^5.0.0",
+    "ioredis": "^4.14.1"
   },
   "devDependencies": {
-    "dotenv": "^6.2.0"
+    "dotenv": "^8.2.0"
   }
 }
